@@ -18,7 +18,7 @@ import pandas as pd
 ##############################
 content = html.Div([con_pri.content,
                     html.Div(["This is the content of aislade"],
-                             className='h-5 bg-blue-300 w-full hidden', id='aislade-section'),
+                             className='h-5 bg-blue-300 w-full hidden', id='red-section'),
                     html.Div(["This is the content of cuchill"],
-                             className='h-5 bg-green-300 w-full hidden', id='cuchill-section')],
+                             className='h-5 bg-green-300 w-full hidden', id='services-section')],
                    className='absolute top-auto ml-48', id='main-content')
