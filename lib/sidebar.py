@@ -46,7 +46,7 @@ SideBar = html.Div(
                                 html.I(
                                     className='fas fa-check pr-2 text-blue-600'),
                                 html.Span(
-                                    'Red', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                                    'Sección 1', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
                             ], href='#red-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500 cursor-pointer'
                         )
                     ], className='mr-3 flex-1'
@@ -57,7 +57,7 @@ SideBar = html.Div(
                                 html.I(
                                     className='fa fa-map pr-2 text-blue-600'),
                                 html.Span(
-                                    'Services', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                                    'Sección 2', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
                             ], href='#services-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer'
                         )
                     ], className='mr-3 flex-1'
@@ -76,17 +76,14 @@ SideBar = html.Div(
     [Input('current-url', 'hash')],
 )
 def toggle_sections(pathname):
-
-    if (pathname is None):
-        resp = ['', 'hidden', 'hidden']
-    else:
+    resp = ['', 'hidden', 'hidden']
+    if '#' in pathname:
         resp = []
         for i in ['uraba', 'red', 'services']:
             if i in pathname:
                 resp.append('')
             else:
                 resp.append('hidden')
-
     return resp
 
 

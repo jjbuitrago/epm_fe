@@ -3,53 +3,66 @@ import plotly.express as px
 
 import dash_core_components as dcc
 import dash_html_components as html
+from dash.dependencies import Input, Output, State
+
+from app import app
+
 import psycopg2
 
-# # # conn = psycopg2.connect(host="localhost", database='postgres',
-# # #                         user="jjbuitragoj", password="postgres")
-# # # cur = conn.cursor()
-# # # cur.execute(
-# # #     'SELECT RepairDate, Town, callid FROM epm.uraba where repairDate is not NULL')
-# # # rows = cur.fetchall()
-
-# # # uraba = pd.DataFrame(rows)
-# # # uraba.columns = ['RepairDate', 'town', 'callid']
-# # # uraba = uraba[1:]
-
-# # # cur.execute('SELECT SUBESTACI1, G3E_FID FROM epm.conectores')
-# # # rows = cur.fetchall()
-
-# # # df = pd.DataFrame(rows)
-# # # df.columns = df.loc[0, :]
-# # # df = df[1:]
-
-# # # df_subestaciones = df.groupby('SUBESTACI1')['G3E_FID'].count().reset_index()
-# # # print(uraba)
-# # # uraba['RepairDate'] = pd.datetime(uraba['RepairDate'], '%Y-%m-%d %H:%m:%s')
-# # # # Data Frame Uraba
-# # # town = 'Turbo'
-
-# # # town_ts = uraba[uraba['town'] == town].groupby(pd.Grouper(
-# # #     key='RepairDate', freq='W-MON')).count()['CallID'].reset_index()
-# # # town_ts.columns = ['RepairData', 'Services']
-# # # line_plot = px.line(town_ts, x='Services', y='RepairData',
-# # #                     title='Life expectancy in Canada')
+from ..sections import useful_functions as ufs
 
 
-# # # fig = px.bar(df_subestaciones, x='SUBESTACI1', y='G3E_FID')
+conn = psycopg2.connect(host="localhost", database='postgres',
+                        user="jjbuitragoj", password="postgres")
+cur = conn.cursor()
+query = '''
+    SELECT date_trunc('week', repairdate::date) AS weekly,
+       COUNT(tasknumber)
+    FROM EPM.URABA
+    where repairdate is not NULL
+    and town ='Turbo'
+    GROUP BY weekly
+    ORDER BY weekly;
+'''
+cur.execute(query)
+rows = cur.fetchall()
+
+uraba = pd.DataFrame(rows)
+
+uraba.columns = ['RepairDate', 'count']
+
+# uraba = uraba[1:]
+
+cur.execute('''select SUBESTACI1, count(SUBESTACI1)
+from epm.conectores
+group by 1
+ORDER BY subestaci1
+ASC;''')
+
+rows = cur.fetchall()
+
+df_subestaciones = pd.DataFrame(rows)
+
+df_subestaciones.columns = ['Subestacion', 'Maquinas']
+
+fig = px.bar(df_subestaciones, x='Subestacion', y='Maquinas')
+grafica = dcc.Graph(figure=fig, id='subestaciones')
+
+linePlot = px.line(uraba[1:-1], x='RepairDate', y='count',
+                   title='Numbers of repairs by week')
+
+line_graph = dcc.Graph(figure=linePlot, id='line-plot', className='w-full')
 
 
-# def grafica(ix):
-#     return dcc.Graph(figure=fig, id='subestaciones_' + str(ix))
+cur.execute('''SELECT DISTINCT TOWN FROM EPM.URABA
+            WHERE TOWN IS NOT NULL
+            ORDER BY TOWN
+            ASC;''')
+rows = cur.fetchall()
+distinct_towns = pd.DataFrame(rows)
 
-#page = html.Div(grafica)
-
-# df = pd.read_excel('report_uraba.xlsx', encoding='utf-8')
-
-
-# towns = [{'label': str(x), 'value': str(x).replace(' ', '_').lower()} for x in list(df['town'].unique())]
-towns = [{'label': 'Carepa', 'value': 'carepa'}, {'label': 'Turbo', 'value': 'turbo'}, {'label': 'Necoclí', 'value': 'necoclí'}, {'label': 'San pedro de urabá', 'value': 'san_pedro_de_urabá'}, {'label': 'nan', 'value': 'nan'}, {'label': 'Nueva Colonia', 'value': 'nueva_colonia'}, {'label': 'Apartadó', 'value': 'apartadó'}, {'label': 'Arboletes', 'value': 'arboletes'}, {'label': 'Chigorodó', 'value': 'chigorodó'}, {'label': 'San juan de urabá', 'value': 'san_juan_de_urabá'}, {'label': 'La Atoyosa', 'value': 'la_atoyosa'}, {'label': 'Currulao', 'value': 'currulao'}, {'label': 'Mutatá', 'value': 'mutatá'}, {'label': 'Riosucio', 'value': 'riosucio'}, {'label': 'Belen de Bajira', 'value': 'belen_de_bajira'}, {'label': 'San Pedro De Los Milagros', 'value': 'san_pedro_de_los_milagros'}, {'label': 'Anzá', 'value': 'anzá'}, {'label': 'Nechí', 'value': 'nechí'}, {'label': 'Medellín', 'value': 'medellín'}, {
-    'label': 'San Vicente Ferrer', 'value': 'san_vicente_ferrer'}, {'label': 'La estrella', 'value': 'la_estrella'}, {'label': 'Murindó', 'value': 'murindó'}, {'label': 'Segovia', 'value': 'segovia'}, {'label': 'Caucasia', 'value': 'caucasia'}, {'label': 'San José De La Montaña', 'value': 'san_josé_de_la_montaña'}, {'label': 'Anorí', 'value': 'anorí'}, {'label': 'Carolina', 'value': 'carolina'}, {'label': 'Nariño', 'value': 'nariño'}, {'label': 'El Carmen De Viboral', 'value': 'el_carmen_de_viboral'}, {'label': 'Caramanta', 'value': 'caramanta'}, {'label': 'Cisneros', 'value': 'cisneros'}, {'label': 'Bello', 'value': 'bello'}, {'label': 'Olaya', 'value': 'olaya'}, {'label': 'San Luis', 'value': 'san_luis'}, {'label': 'Cañasgordas', 'value': 'cañasgordas'}, {'label': 'Caicedo', 'value': 'caicedo'}, {'label': 'Ciudad bolívar', 'value': 'ciudad_bolívar'}, {'label': 'San Jerónimo', 'value': 'san_jerónimo'}]
+towns = []
+towns = list(map(ufs.norm_str, list(distinct_towns.loc[:, 0])))
 
 
 def card(title, child, color='blue'):
@@ -66,32 +79,77 @@ def card(title, child, color='blue'):
                 html.H3(child, className='font-bold text-3x text-center')
             ], className='flex-1 text-right md:text-center')
         ], className="flex flex-row items-center")],
-        className="bg-{}-100 border-b-4 border-{}-500 rounded-lg shadow-lg p-3".format(color, color))
+        className="bg-{}-100 border-b-4 border-{}-500 rounded-lg shadow-lg p-3 mx-3".format(color, color))
 
 
 dropdown = html.Div([
     dcc.Dropdown(
         id='demo-dropdown',
         options=towns,
-        value='NYC'
+        value=towns[0]['label']
+
     )
 ], className='text-xl text-black w-48')
+
+
+@app.callback(
+    [Output("card-total", "children"),
+        Output("card-realizada", "children"),
+        Output("card-norealizada", "children"),
+        Output("repairs-ts", "children")],
+    [Input('demo-dropdown', 'value')],
+)
+def toggle_sections(input):
+    cur.execute(
+        "SELECT COUNT(*) FROM EPM.URABA WHERE TOWN='{}' AND STATUS='Realizada'".format(input))
+    realizada = cur.fetchone()[0]
+    cur.execute(
+        "SELECT COUNT(*) FROM EPM.URABA WHERE TOWN='{}' AND STATUS='No Realizada'".format(input))
+    no_realizada = cur.fetchone()[0]
+
+    query = '''
+        SELECT date_trunc('week', repairdate::date) AS weekly,
+        COUNT(tasknumber)
+        FROM EPM.URABA
+        where repairdate is not NULL
+        and town ='{}'
+        GROUP BY weekly
+        ORDER BY weekly;
+    '''.format(input)
+    cur.execute(query)
+    rows = cur.fetchall()
+
+    uraba = pd.DataFrame(rows)
+
+    uraba.columns = ['RepairDate', 'count']
+
+    linePlot = px.line(uraba[1:-1], x='RepairDate', y='count',
+                       title='Numbers of repairs by week')
+
+    line_graph = dcc.Graph(figure=linePlot, id='line-plot', className='w-full')
+
+    return [card('Fallas Totales', realizada+no_realizada, 'green'),
+            card('Realizada', realizada, 'orange'),
+            card('No Realizada', no_realizada, 'yellow'),
+            line_graph]
+
 
 content = html.Div(
     [
         html.Div([html.P('Uraba', className='mr-4'), dropdown],
                  className='flex bg-blue-800 p-2 shadow text-xl text-white'),
-        html.Div([html.Div(card('Total Failures', 400, 'green')),
-                  html.Div(card('Repairs Made', 300, 'orange')),
-                  html.Div(card('Present Failures', 10, 'yellow')),
-                  html.Div(card('Transformers', 800)),
-                  html.Div(card('Insulators', 500, 'purple')),
-                  html.Div(card('Average repair time', 90, 'red'))],
-                 className='grid grid-flow-row grid-cols-3 grid-rows-2 gap-4 mt-2 mx-2'),
+        html.Div([html.Div(id='card-total', className='w-1/3'),
+                  html.Div(id='card-realizada', className='w-1/3'),
+                  html.Div(id='card-norealizada', className='w-1/3'),
+                  #   html.Div(card('Transformers', 800)),
+                  #   html.Div(card('Insulators', 500, 'purple')),
+                  #   html.Div(card('Average repair time', 90, 'red'))
+                  ],
+                 className='flex flex-wrap mt-2 mx-2'),
         html.Div([
-            # html.Div(grafica(1), className='h-32 bg-red-400'),
-            # html.Div(line_plot, className='h-32 bg-red-400')
+            html.Div(grafica, className='w-full'),
+            html.Div(className='w-full', id='repairs-ts')
         ],
-            className='grid grid-flow-row grid-cols-2 grid-rows-1 gap-4 mt-2 mx-2')
+            className='w-full grid grid-cols-2 gap-4 mt-2 mx-2')
     ], id='uraba-section'
 )
