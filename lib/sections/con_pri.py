@@ -124,7 +124,7 @@ def toggle_sections(input):
     uraba.columns = ['RepairDate', 'count']
 
     linePlot = px.line(uraba[1:-1], x='RepairDate', y='count',
-                       title='Numbers of repairs by week')
+                       title='Reparaciones por semana')
 
     line_graph = dcc.Graph(figure=linePlot, id='line-plot', className='w-full')
 
@@ -136,7 +136,7 @@ def toggle_sections(input):
 
 content = html.Div(
     [
-        html.Div([html.P('Uraba', className='mr-4'), dropdown],
+        html.Div([html.P('Urabá', className='mr-4'), dropdown],
                  className='flex bg-blue-800 p-2 shadow text-xl text-white'),
         html.Div([html.Div(id='card-total', className='w-1/3'),
                   html.Div(id='card-realizada', className='w-1/3'),
