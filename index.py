@@ -45,11 +45,11 @@ app.layout = html.Div(
         ),
         html.Div(
             [
-                html.Div(sidebar.sidebar, className='float-left w'),
-                html.Div(content.content, className='w-100', id='content-section')], className='flex flow-row', id="document-body"
+                html.Div(sidebar.sidebar, className='w-48'),
+                html.Div(content.content, className='w-full', id='content-section')], className='flex', id="document-body"
         )
 
-    ], className=''
+    ]
 )
 
 

@@ -36,7 +36,7 @@ SideBar = html.Div(
                                     className='fas fa-chart-area pr-2 md:pr-3 text-blue-600'),
                                 html.Span(
                                     'Urabá', className='pb-1 md:pb-0 text-xs md:text-base text-white md:text-white block md:inline-block')
-                            ], href='#uraba-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer'
+                            ], href='#uraba-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer', id='uraba-button'
                         )
                     ], className='mr-3 flex-1'
                 ), html.Li(
@@ -46,8 +46,8 @@ SideBar = html.Div(
                                 html.I(
                                     className='fas fa-check pr-2 text-blue-600'),
                                 html.Span(
-                                    'Sección 1', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
-                            ], href='#red-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500 cursor-pointer'
+                                    'Mapa', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                            ], href='#map-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500 cursor-pointer', id='map-button'
                         )
                     ], className='mr-3 flex-1'
                 ), html.Li(
@@ -57,8 +57,8 @@ SideBar = html.Div(
                                 html.I(
                                     className='fa fa-map pr-2 text-blue-600'),
                                 html.Span(
-                                    'Sección 2', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
-                            ], href='#services-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer'
+                                    'Sección 3', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                            ], href='#services-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer', id='services-button'
                         )
                     ], className='mr-3 flex-1'
                 ),
@@ -71,19 +71,31 @@ SideBar = html.Div(
 
 
 @app.callback(
-    [Output(f"{i}-section", "className")
-     for i in ['uraba', 'red', 'services']],
+    [Output("uraba-section", "className"),
+     Output("map-section", "className"),
+     Output("services-section", "className"),
+     Output("uraba-button", "className"),
+     Output("map-button", "className"),
+     Output("services-button", "className")],
     [Input('current-url', 'hash')],
 )
 def toggle_sections(pathname):
     resp = ['', 'hidden', 'hidden']
     if '#' in pathname:
         resp = []
-        for i in ['uraba', 'red', 'services']:
+        for i in ['uraba', 'map', 'services']:
             if i in pathname:
                 resp.append('')
             else:
                 resp.append('hidden')
+
+        for sec in ['uraba', 'map', 'services']:
+            if sec in pathname:
+                resp.append(
+                    'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer')
+            else:
+                resp.append(
+                    'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer')
     return resp
 
 

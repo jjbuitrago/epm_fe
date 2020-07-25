@@ -5,7 +5,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import plotly.express as px
-from .sections import con_pri
+from .sections import section_1, section_3
 
 
 from datetime import datetime as dt
@@ -16,9 +16,9 @@ import pandas as pd
 ##############################
 # Map Layout
 ##############################
-content = html.Div([con_pri.content,
+content = html.Div([section_1.content,
                     html.Div(["This is the content of aislade"],
-                             className='h-5 bg-blue-300 w-full hidden', id='red-section'),
-                    html.Div(["This is the content of cuchill"],
-                             className='h-5 bg-green-300 w-full hidden', id='services-section')],
-                   className='absolute top-auto ml-48', id='main-content')
+                             className='h-5 bg-blue-300 w-full hidden', id='services-section'),
+                    section_3.content
+                    ],
+                   className='container px-0', id='main-content')
