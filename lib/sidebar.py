@@ -57,7 +57,7 @@ SideBar = html.Div(
                                 html.I(
                                     className='fa fa-map pr-2 text-blue-600'),
                                 html.Span(
-                                    'Sección 3', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                                    'Antioquia', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
                             ], href='#services-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer', id='services-button'
                         )
                     ], className='mr-3 flex-1'
@@ -80,7 +80,7 @@ SideBar = html.Div(
     [Input('current-url', 'hash')],
 )
 def toggle_sections(pathname):
-    resp = ['', 'hidden', 'hidden']
+    resp = ['', 'hidden', 'hidden','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer']
     if '#' in pathname:
         resp = []
         for i in ['uraba', 'map', 'services']:

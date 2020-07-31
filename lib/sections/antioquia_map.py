@@ -140,7 +140,7 @@ Function to create parallel cagegories maps
 df: dataframe of the informateion to be plotted
 '''
 def paint_time_boxes(df):
-
+    
     #Create dummy variables if the dataframe is empty
     if len(df)==0:
         df = pd.DataFrame({'duratiomin':[0],
@@ -186,8 +186,9 @@ def paint_descriptive_graphs(min_date,max_date,priority_range,town_value):
             ,Servicetype
             ,Servicegroup
             ,duratiomin
-            ,EXTRACT(epoch from (to_timestamp(onsitedate,'DD/MM/YYYY HH24:mi') - to_timestamp(traveldate,'DD/MM/YYYY HH24:mi')) )/60 as travel_to_onsite
-            ,EXTRACT(epoch from (to_timestamp(completiondate,'DD/MM/YYYY HH24:mi') - to_timestamp(opendate,'DD/MM/YYYY HH24:mi')) )/60 as open_to_completion
+            ,EXTRACT(epoch from (to_timestamp(onsitedate,'YYYY-MM-DD HH24:mi') - to_timestamp(traveldate,'YYYY-MM-DD HH24:mi')) )/60 as travel_to_onsite
+            ,EXTRACT(epoch from (to_timestamp(completiondate,'YYYY-MM-DD HH24:mi') - to_timestamp(opendate,'YYYY-MM-DD HH24:mi')) )/60 as open_to_completion
+
         from
             epm.uraba
         where
@@ -216,7 +217,7 @@ def paint_descriptive_graphs(min_date,max_date,priority_range,town_value):
 
 # Server conection 
 conn = psycopg2.connect(host="localhost", database='postgres',
-                        user="postgres", password="DS4A2020")
+                        user="jjbuitragoj", password="postgres")
 
 
 #Gather Dates
