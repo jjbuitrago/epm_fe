@@ -21,4 +21,4 @@ content = html.Div([section_1.content,
                              className='h-5 bg-blue-300 w-full hidden', id='services-section'),
                     section_3.content
                     ],
-                   className='container px-0', id='main-content')
+                   className='overflow-x-hidden', id='main-content')

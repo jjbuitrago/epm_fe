@@ -20,25 +20,39 @@ from app import app
 ####################################################################################
 # Add Elements
 ####################################################################################
-
+# from '/images/epm.png' import logoepm 
 logo = html.Div(
-    className='flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2'
+    [
+        html.Img(
+            # src={logoepm},
+            src='https://upload.wikimedia.org/wikipedia/commons/0/05/Logo_EPM.png',
+            style={
+                'max-height':'7vh'
+            }
+        )
+    ],className='flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2'
 )
 
 
 searchBar = html.Div(
     [
-        html.Span(
-            [
-                dcc.Input(
-                    className='w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal',
-                    placeholder='Search', type='search', id='search-bar1'
-                ), html.Div(
-                    [], className='absolute search-icon'
-                )
-            ], className='relative w-full'
+        html.Img(
+            src='https://correlation1-public.s3-us-west-2.amazonaws.com/ds4a-latam/DS4A_LatAm_logo%402x.png',
+            style={
+                'max-height':'7vh'
+            }
         )
-    ], className='flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2'
+        # html.Span(
+        #     [
+        #         dcc.Input(
+        #             className='w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal',
+        #             placeholder='Search', type='search', id='search-bar1'
+        #         ), html.Div(
+        #             [], className='absolute search-icon'
+        #         )
+        #     ], className='relative w-full'
+        # )
+    ], className='flex flex-1 md:w-1/3 justify-center text-white px-2'
 )
 
 navLinks = html.Div(

@@ -103,5 +103,5 @@ def toggle_sections(pathname):
 # Sidebar Layout
 #############################################################################
 sidebar = html.Div(
-    SideBar, className='bg-gray-900 shadow-lg h-16 bottom-0 top:12px left:0 fixed md:h-screen z-10 w-full md:w-48 pt-12'
+    SideBar, className='bg-gray-900 shadow-lg h-16 bottom-0 left:0 md:h-screen z-10 w-full md:w-48'
 )
