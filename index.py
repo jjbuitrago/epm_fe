@@ -41,7 +41,7 @@ app.layout = html.Div(
 
     [
         html.Div(
-            navBar.navBar, className="w-1 bg-gray-900 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto w-full z-20 top-0", id="nav-bar"
+            navBar.navBar, className="w-1 bg-gray-900 pt-2 md:pt-1 pb-2 px-1 mt-0 h-auto w-full z-20 top-0", id="nav-bar"
         ),
         html.Div(
             [
