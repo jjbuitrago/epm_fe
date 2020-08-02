@@ -46,7 +46,7 @@ SideBar = html.Div(
                                 html.I(
                                     className='fas fa-check pr-2 text-blue-600'),
                                 html.Span(
-                                    'Mapa', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                                    'Proyección', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
                             ], href='#map-section', className='block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-purple-500 cursor-pointer', id='map-button'
                         )
                     ], className='mr-3 flex-1'
@@ -59,6 +59,17 @@ SideBar = html.Div(
                                 html.Span(
                                     'Antioquia', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
                             ], href='#services-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer', id='services-button'
+                        )
+                    ], className='mr-3 flex-1'
+                ), html.Li(
+                    [
+                        dcc.Link(
+                            [
+                                html.I(
+                                    className='fa fa-cloud pr-2 text-blue-600'),
+                                html.Span(
+                                    'Wordcloud', className='pb-1 md:pb-0 text-xs md:text-base text-gray-600 md:text-gray-400 block md:inline-block')
+                            ], href='#wordcloud-section', className='block py-3 md:py-3 pl-0 md:pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-red-500 cursor-pointer', id='wordcloud-button'
                         )
                     ], className='mr-3 flex-1'
                 ),
@@ -74,22 +85,25 @@ SideBar = html.Div(
     [Output("uraba-section", "className"),
      Output("map-section", "className"),
      Output("services-section", "className"),
+     Output("wordcloud-section", "className"),
      Output("uraba-button", "className"),
      Output("map-button", "className"),
-     Output("services-button", "className")],
+     Output("services-button", "className"),
+     Output("wordcloud-button", "className")],
     [Input('current-url', 'hash')],
 )
 def toggle_sections(pathname):
-    resp = ['', 'hidden', 'hidden','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer','block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer']
+    resp = ['', 'hidden', 'hidden', 'hidden', 'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer', 'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer',
+            'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer', 'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-gray-800 hover:border-gray-500 cursor-pointer']
     if '#' in pathname:
         resp = []
-        for i in ['uraba', 'map', 'services']:
+        for i in ['uraba', 'map', 'services', 'wordcloud']:
             if i in pathname:
                 resp.append('')
             else:
                 resp.append('hidden')
 
-        for sec in ['uraba', 'map', 'services']:
+        for sec in ['uraba', 'map', 'services', 'wordcloud']:
             if sec in pathname:
                 resp.append(
                     'block py-3 md:py-3 pl-1 align-middle text-white no-underline hover:text-white border-b-2 border-blue-600 cursor-pointer')
