@@ -25,8 +25,8 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
 def func_proy(st, et, town, g_title, town_id, start_data_m, order_sm, seasonal_order_sm):
 
-    conn = psycopg2.connect(host="localhost", database='postgres',
-                            user="jjbuitragoj", password="postgres")
+    conn = psycopg2.connect(host="postgres.czuldxhimlqj.us-east-2.rds.amazonaws.com", database='postgres',
+                            user="postgres", password="postgres")
     cur = conn.cursor()
     query = '''
         SELECT date_trunc('week', repairdate::date) AS weekly,
